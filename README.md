@@ -1,4 +1,4 @@
-# uni-ens — Intent-Based Swaps, Signed by Your ENS Name
+# ens-intent-bus — Intent-Based Swaps, Signed by Your ENS Name
 
 > Trade by publishing your intent onchain. An AI agent reads your ENS, verifies your identity, and executes the best swap via Uniswap — trustlessly.
 
