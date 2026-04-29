@@ -1,4 +1,4 @@
-node_modules/
+deploy.md
 dist/
 build/
 coverage/
@@ -10,8 +10,4 @@ coverage/
 *.tsbuildinfo
 *.cache/
 *.tmp
-*.bak
-*env
-env.example
-.env*
-
+deployed.md

@@ -9,3 +9,6 @@
 *.log
 *env
 env.example
+*env*
+.idea/
+deployed.md

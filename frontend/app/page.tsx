@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount, useEnsName, useEnsAvatar } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
@@ -7,6 +8,7 @@ import Image from 'next/image'
 import { AgentPanel } from '@/components/AgentPanel'
 import { IntentFlow } from '@/components/IntentFlow'
 import { IntentDashboard } from '@/components/IntentDashboard'
+import { ChatInterface } from '@/components/ChatInterface'
 
 function Header() {
   return (
@@ -29,6 +31,7 @@ function Header() {
 function EnsGate({ address }: { address: `0x${string}` }) {
   const { data: ensName, isLoading } = useEnsName({ address, chainId: mainnet.id })
   const { data: avatar } = useEnsAvatar({ name: ensName ?? undefined, chainId: mainnet.id })
+  const [mode, setMode] = useState<'chat' | 'manual'>('chat')
 
   if (isLoading) {
     return (
@@ -94,11 +97,32 @@ function EnsGate({ address }: { address: `0x${string}` }) {
         </div>
       </div>
 
-      {/* Main layout */}
-      <div className="grid lg:grid-cols-[1fr_1fr] gap-6 items-start">
-        <IntentFlow ensName={ensName} />
-        <IntentDashboard />
+      {/* Mode toggle */}
+      <div className="flex items-center gap-0 border border-border w-fit">
+        {(['chat', 'manual'] as const).map(m => (
+          <button
+            key={m}
+            onClick={() => setMode(m)}
+            className={`px-5 py-2 text-xs font-mono tracking-widest uppercase transition-colors ${
+              mode === m
+                ? 'bg-gold text-bg font-bold'
+                : 'text-ink-muted hover:text-ink'
+            }`}
+          >
+            {m}
+          </button>
+        ))}
       </div>
+
+      {/* Main layout */}
+      {mode === 'chat' ? (
+        <ChatInterface ensName={ensName} />
+      ) : (
+        <div className="grid lg:grid-cols-[1fr_1fr] gap-6 items-start">
+          <IntentFlow ensName={ensName} />
+          <IntentDashboard />
+        </div>
+      )}
     </div>
   )
 }

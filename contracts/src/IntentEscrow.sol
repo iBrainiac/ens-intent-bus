@@ -98,12 +98,11 @@ contract IntentEscrow is ReentrancyGuard {
 
         uint256 balanceBefore = IERC20(intent.tokenOut).balanceOf(address(this));
 
-        IERC20(intent.tokenIn).forceApprove(UNISWAP_ROUTER, intent.amountIn);
+        // Pre-transfer tokens to router so it can swap without Permit2.
+        // payerIsUser: false in the calldata tells the router to use its own balance.
+        IERC20(intent.tokenIn).safeTransfer(UNISWAP_ROUTER, intent.amountIn);
         (bool success,) = UNISWAP_ROUTER.call(swapData);
         if (!success) revert SwapFailed();
-
-        // Clear approval in case router didn't consume full amount
-        IERC20(intent.tokenIn).forceApprove(UNISWAP_ROUTER, 0);
 
         uint256 amountOut = IERC20(intent.tokenOut).balanceOf(address(this)) - balanceBefore;
         if (amountOut < intent.minAmountOut) revert InsufficientOutput();
