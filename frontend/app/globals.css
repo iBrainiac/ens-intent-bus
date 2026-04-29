@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-mono: 'Space Mono', monospace;
+    --font-display: 'Cormorant Garamond', serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #060609;
+    color: #ede8d8;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Scanline overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 3px,
+      rgba(255, 255, 255, 0.012) 3px,
+      rgba(255, 255, 255, 0.012) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Subtle vignette */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.4) 100%);
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #060609;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #242432;
+    border-radius: 0;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c9a94e;
+  }
+
+  ::selection {
+    background: rgba(201, 169, 78, 0.25);
+    color: #e8c76e;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@layer components {
+  .btn-gold {
+    @apply bg-gold text-page font-mono text-xs font-bold tracking-widest uppercase px-6 py-3
+           transition-all duration-200 hover:bg-gold-bright active:scale-95
+           disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+
+  .btn-outline {
+    @apply border border-border-strong text-ink-muted font-mono text-xs tracking-widest uppercase
+           px-6 py-3 transition-all duration-200 hover:border-gold hover:text-gold
+           disabled:opacity-30 disabled:cursor-not-allowed;
+  }
+
+  .card {
+    @apply bg-card border border-border;
+  }
+
+  .card-elevated {
+    @apply bg-elevated border border-border-strong;
+  }
+
+  .label {
+    @apply text-ink-muted text-xs tracking-widest uppercase;
+  }
+
+  .input-field {
+    @apply w-full bg-page border border-border text-ink font-mono text-sm px-4 py-3
+           placeholder:text-ink-faint focus:outline-none focus:border-gold
+           transition-colors duration-200;
+  }
+
+  .status-pending {
+    @apply text-gold bg-gold-faint border border-gold-dim;
+  }
+
+  .status-executed {
+    @apply text-teal bg-teal-faint border border-teal-dim;
+  }
+
+  .status-cancelled {
+    @apply text-ink-muted bg-elevated border border-border;
+  }
+}
+
+/* RainbowKit overrides */
+[data-rk] {
+  --rk-fonts-body: var(--font-mono) !important;
+}
