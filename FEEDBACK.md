@@ -76,5 +76,5 @@ The chat mode wraps the Trading API integration to let users create, check, and 
 
 ## DX Friction
 
-- Getting an API key requires registering on the developer portal — there's no free tier key for hackathons. A temporary hackathon key with rate limits would reduce setup friction significantly.
+- Getting an API key requires registering on the developer portal — there's no free tier key for testing . A temporary testing key with rate limits would reduce setup friction significantly.
 - The error messages from `/swap` when the quote has expired are generic. A specific `QUOTE_EXPIRED` error code would make retry logic cleaner.
